@@ -38,27 +38,22 @@ usuarios = [usuario_1, usuario_2, usuario_3, usuario_4, usuario_5]
 # Usá como referencia los diccionarios de usuario de arriba.
 #
 # Campos de tema:
-#   id_tema | tema | autor 
+#   id_tema | tema | autor
 #
 # Datos:
 #   id=1, tema="Dai Dai",  autor="Shakira"
 #   id=2, tema="Swim",     autor="BTS"
 
-tema_1 = {
-    "id_tema":     1,
-    "tema":        "Dai Dai",
-    "autor":       "Shakira"
-}
+tema_1 = {"id_tema": 1, "tema": "Dai Dai", "autor": "Shakira"}
 
-tema_2 = {
-    # completar...
-}
+tema_2 = {"id_tema": 2, "tema": "Swim", "autor": "BTS"}
 
 # Paso 2: Armá la lista de temas con los dos registros creados arriba.
-# temas =
+temas = [tema_1, tema_2]
 
 
 # ********** FUNCIONES ***************
+
 
 def mostrar_usuarios(usuarios):
     for registro in usuarios:
@@ -78,22 +73,23 @@ def mostrar_temas(temas):
 #   id=4, tema="MIA",           autor="Bad Bunny"
 #   id=5, tema="SFTU",          autor="Drake"
 
+
 def ingresar_tema():
     """Solicita los campos de un tema por teclado y retorna el diccionario."""
 
 
 # Paso 4: generá un Loop en la función main que llame a la función
 # ingresar_tema() - se sugiere que el usuario indique fin de carga
-def main():
 
+def main():
     """
     Tu código aquí
     """
     # mostrar_usuarios(usuarios)
-    # mostrar_temas(temas)
+    mostrar_temas(temas)
 
 
-
+main()
 # ── Actividad 2 — Tuplas de ids válidos para validar ─────────
 
 # Para la Actividad 3 vamos a necesitar validar que el usuario
@@ -136,7 +132,7 @@ def main():
 #         "id_usuario": id_usu,
 
 #     }
-    
+
 #     ratings.append(nuevo_rating)
 #     id_rating_counter += 1
 #     print(f"  ✅ Rating registrado: {nuevo_rating}")
@@ -148,5 +144,3 @@ def main():
 # print("\nTabla RATING:")
 # for r in ratings:
 #     print(r)
-
-
