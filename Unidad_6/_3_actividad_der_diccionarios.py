@@ -44,6 +44,7 @@ usuarios = [usuario_1, usuario_2, usuario_3, usuario_4, usuario_5]
 #   id=1, tema="Dai Dai",  autor="Shakira"
 #   id=2, tema="Swim",     autor="BTS"
 
+
 tema_1 = {
      "id_tema": 1,
      "tema": "Dai Dai",
@@ -51,6 +52,8 @@ tema_1 = {
       }
 
 tema_2 = {"id_tema": 2, "tema": "Swim", "autor": "BTS"}
+tema_1 = {"id_tema": 1, "tema": "Dai Dai", "autor": "Shakira"}
+tema_2 = {"id_tema": 2, "autor": "BTS", "tema": "Swim"}
 
 # Paso 2: Armá la lista de temas con los dos registros creados arriba.
 temas = [tema_1, tema_2]
@@ -80,15 +83,28 @@ def mostrar_temas(temas):
 
 def ingresar_tema():
     """Solicita los campos de un tema por teclado y retorna el diccionario."""
+    id_tema = int(input("Ingrese el ID: "))
+    tema = input("Ingrese el nombre del tema: ")
+    autor = input("Ingrese el autor: ")
+    tema_dict = {
+        "id_tema": id_tema, 
+        "tema": tema, 
+        "autor": autor
+    }
+    temas.append(tema_dict)
 
 
 # Paso 4: generá un Loop en la función main que llame a la función
 # ingresar_tema() - se sugiere que el usuario indique fin de carga
 
+
 def main():
-    """
-    Tu código aquí
-    """
+    while True:
+        ingresar_tema()
+        continuar = input("Continua? S/N")
+        if continuar.strip().lower() == "n":
+            break
+
     # mostrar_usuarios(usuarios)
     mostrar_temas(temas)
 
