@@ -44,7 +44,11 @@ usuarios = [usuario_1, usuario_2, usuario_3, usuario_4, usuario_5]
 #   id=1, tema="Dai Dai",  autor="Shakira"
 #   id=2, tema="Swim",     autor="BTS"
 
-tema_1 = {"id_tema": 1, "tema": "Dai Dai", "autor": "Shakira"}
+tema_1 = {
+     "id_tema": 1,
+     "tema": "Dai Dai",
+     "autor": "Shakira"
+      }
 
 tema_2 = {"id_tema": 2, "tema": "Swim", "autor": "BTS"}
 
