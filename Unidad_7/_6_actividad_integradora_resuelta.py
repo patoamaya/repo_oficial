@@ -8,12 +8,11 @@
 #   2. No modifiques los nombres de las funciones ni sus parámetros
 #   3. Trabajá en la rama 'develop' y hacé un commit por función
 #
-# Referencia: Unidad 4 : _6_sis_rec_part_1_resuelto.py
+# Referencia: _6_sis_rec_part_1_resuelto.py
 # ============================================================
 
 import random
 from datetime import date
-
 
 # ============================================================
 # DATOS INICIALES
@@ -21,11 +20,11 @@ from datetime import date
 
 # ── Entidad: tema (estática, no se modifica durante la ejecución) ─
 TEMAS = [
-    {"id_tema": 1, "tema": "Dai Dai",           "autor": "Shakira"},
-    {"id_tema": 2, "tema": "Swim",              "autor": "BTS"},
-    {"id_tema": 3, "tema": "Chosin Texas",      "autor": "Ella Langley"},
-    {"id_tema": 4, "tema": "DTMF",              "autor": "Bad Bunny"},
-    {"id_tema": 5, "tema": "SFTU",              "autor": "Drake"},
+    {"id_tema": 1, "tema": "Dai Dai", "autor": "Shakira"},
+    {"id_tema": 2, "tema": "Dynamite", "autor": "BTS"},
+    {"id_tema": 3, "tema": "DTMF", "autor": "Bad Bunny"},
+    {"id_tema": 4, "tema": "Dont Start Now", "autor": "Dua Lipa"},
+    {"id_tema": 5, "tema": "Positions", "autor": "Ariana Grande"},
 ]
 
 # ── Entidad: usuario (se gestiona con CRUD) ──────────────────────
@@ -45,8 +44,15 @@ def buscar_tema_por_id(id_tema):
     Busca un tema en la lista TEMAS por su id.
     Retorna el diccionario del tema o None si no existe.
     """
-    # Tu código acá
-    pass # remover pass, es solo un placeholder 
+    # Validacion
+    if not isinstance(id_tema, int):
+        print("id_tema debe ser int")
+        return None
+
+    for tema in TEMAS:
+        if tema["id_tema"] == id_tema:
+            return tema
+    return None
 
 
 def buscar_usuario_por_id(id_usuario):
@@ -54,8 +60,15 @@ def buscar_usuario_por_id(id_usuario):
     Busca un usuario en la lista 'usuarios' por su id.
     Retorna el diccionario del usuario o None si no existe.
     """
-    # Tu código acá
-    pass
+    # Validacion
+    if not isinstance(id_usuario, int):
+        print("id_usuario debe ser int")
+        return None
+
+    for usuario in usuarios:
+        if usuario["id_usuario"] == id_usuario:
+            return usuario
+    return None
 
 
 # ============================================================
@@ -64,6 +77,7 @@ def buscar_usuario_por_id(id_usuario):
 
 # ── Validaciones (Unidad 7 — métodos de string) ──────────────────
 
+
 def validar_id_usuario(id_usuario):
     """
     Valida que el id_usuario se pueda convertir a int.
@@ -71,7 +85,9 @@ def validar_id_usuario(id_usuario):
 
     Métodos útiles: .isdigit()
     """
-    return id_usuario.strip().isdigit()
+    # Tu código acá
+    return isinstance(id_usuario, str) and id_usuario.isdigit()
+
 
 def validar_nombre(nombre):
     """
@@ -81,21 +97,36 @@ def validar_nombre(nombre):
     Métodos útiles: .strip(), .replace(), .isalpha()
     """
     # Tu código acá
-    pass
+    nombre = nombre.strip()
+
+    if not nombre:
+        return False
+
+    return nombre.replace(" ", "").isalpha()
 
 
 def validar_email(email):
-    """
-    Valida que el email contenga '@' y al menos un '.' después del '@'.
-    Retorna True si es válido, False si no.
+    email = email.strip()
 
-    Métodos útiles: .strip(), 'in', .split(), .find()
-    """
-    # Tu código acá
-    pass
+    # Debe tener exactamente un @
+    if email.count("@") != 1:
+        return False
+
+    usuario, dominio = email.split("@")
+
+    # Debe existir texto antes y después del @
+    if usuario == "" or dominio == "":
+        return False
+
+    # El dominio debe contener al menos un punto
+    if dominio.count(".") < 1:
+        return False
+
+    return True
 
 
 # ── Operaciones CRUD ─────────────────────────────────────────────
+
 
 def crear_usuario():
     """
@@ -120,17 +151,23 @@ def crear_usuario():
         nombre = input("Nombre: ").strip()
 
     # Tu código acá: solicitar y validar apellido
-    apellido = input("")
+    apellido = input("Apellido: ").strip()
+    while not validar_nombre(apellido):
+        print("El apellido solo puede contener letras y espacios.")
+        apellido = input("Apellido: ").strip()
 
     # Tu código acá: solicitar y validar email
-    email = input("")
+    email = input("Email: ").strip()
+    while not validar_email(email):
+        print("El email ingresado no es válido.")
+        email = input("Email: ").strip()
 
     # Construir el diccionario del usuario
     nuevo_usuario = {
         "id_usuario": id_usuario,
-        "nombre":     nombre,
-        "apellido":   apellido,
-        "email":      email,
+        "nombre": nombre,
+        "apellido": apellido,
+        "email": email,
     }
 
     # Tu código acá: agregar a la lista 'usuarios'
@@ -139,7 +176,7 @@ def crear_usuario():
     print("Usuario agregado exitosamente!")
 
 
-def buscar_usuario_por_id():
+def mostrar_usuario_por_id():
     """
     Solicita un id por teclado y muestra los datos del usuario.
     Si no existe, muestra un mensaje de error.
@@ -150,6 +187,16 @@ def buscar_usuario_por_id():
     id_usuario = int(input("ID del usuario: "))
 
     # Tu código acá: usar buscar_usuario_por_id()
+    usuario = buscar_usuario_por_id(id_usuario)
+
+    if not usuario:
+        print(f"No se encontró ningún usuario con id {id_usuario}.")
+        return
+
+    print(f"ID: {usuario['id_usuario']}")
+    print(f"Nombre: {usuario['nombre']}")
+    print(f"Apellido: {usuario['apellido']}")
+    print(f"Email: {usuario['email']}")
 
 
 def ver_usuarios():
@@ -162,6 +209,15 @@ def ver_usuarios():
     if not usuarios:
         print("  No hay usuarios registrados.")
         return
+
+    # Mostrar solo los primeros 5 registros usando slicing
+    primeros_usuarios = usuarios[:5]
+
+    for usuario in primeros_usuarios:
+        print(
+            f"  [{usuario['id_usuario']}] "
+            f"{usuario['nombre']} {usuario['apellido']} - {usuario['email']}"
+        )
 
 
 def eliminar_usuario():
@@ -182,7 +238,7 @@ def eliminar_usuario():
 
     # Tu código acá: eliminar el usuario de la lista 'usuarios'
     # Podés usar .remove() pasando el objeto, o .pop() con el índice
-
+    usuarios.remove(usuario)
 
     print(f"Usuario eliminado correctamente.")
 
@@ -190,6 +246,7 @@ def eliminar_usuario():
 # ============================================================
 # SECCIÓN 5 — GESTIÓN DE RATINGS
 # ============================================================
+
 
 def registrar_rating():
     """
@@ -202,18 +259,18 @@ def registrar_rating():
     3. Usa la fecha del día de hoy con date.today().
     """
     print("\n--- Registrar rating ---")
-    id_rating = int(input("ID del rating: ")) # autonumerico
+    id_rating = int(input("ID del rating: "))
     id_usuario = int(input("ID del usuario: "))
-    id_tema    = int(input("ID del tema: "))
+    id_tema = int(input("ID del tema: "))
     valor_rating = int(input("Rating (1 a 5): "))
-    fecha = input("")
+    fecha = date.today()
 
     nuevo_rating = {
-        "id_rating":  id_rating,
+        "id_rating": id_rating,
         "id_usuario": id_usuario,
-        "id_tema":    id_tema,
-        "rating":     valor_rating,
-        "fecha":      fecha,
+        "id_tema": id_tema,
+        "rating": valor_rating,
+        "fecha": fecha,
     }
     ratings.append(nuevo_rating)
     print(f"Rating registrado correctamente.")
@@ -222,15 +279,33 @@ def registrar_rating():
 def leer_ratings():
     """
     Muestra todos los ratings con nombre de usuario y nombre de tema.
-    
+
     Mejoras futuras: JOIN manual entre las tres listas
     """
     print("\n--- Ratings registrados ---")
+
+    if not ratings:
+        print("No hay ratings registrados.")
+        return
+
+    for rating in ratings:
+        usuario = buscar_usuario_por_id(rating["id_usuario"])
+        tema = buscar_tema_por_id(rating["id_tema"])
+
+        nombre_usuario = usuario["nombre"] if usuario else "Usuario desconocido"
+        nombre_tema = tema["tema"] if tema else "Tema desconocido"
+
+        print(
+            f"[{rating['id_rating']}] "
+            f"{nombre_usuario} → {nombre_tema}: "
+            f"{rating['rating']}/5 - {rating['fecha']}"
+        )
 
 
 # ============================================================
 # SECCIÓN 6 — MATRIZ DE RATINGS
 # ============================================================
+
 
 def construir_matriz_ratings():
     """
@@ -245,16 +320,16 @@ def construir_matriz_ratings():
     """
     if not usuarios:
         return []
- 
+
     # Índice (id_usuario, id_tema) → rating para búsqueda en O(1)
     indice = {}
     for r in ratings:
         clave = (r["id_usuario"], r["id_tema"])
         indice[clave] = r["rating"]
- 
+
     # Ordenar por id para consistencia
     usuarios_ord = sorted(usuarios, key=lambda u: u["id_usuario"])
- 
+
     # Construir la matriz fila por fila
     matriz = []
     for u in usuarios_ord:
@@ -263,9 +338,8 @@ def construir_matriz_ratings():
             clave = (u["id_usuario"], t["id_tema"])
             fila.append(indice.get(clave, 0))
         matriz.append(fila)
- 
-    return matriz
 
+    return matriz
 
 
 def mostrar_matriz_ratings():
@@ -285,9 +359,12 @@ def mostrar_matriz_ratings():
 
     print()
 
+    # Los usuarios se ordenan igual que en construir_matriz_ratings()
+    usuarios_ord = sorted(usuarios, key=lambda u: u["id_usuario"])
+
     # Matriz
     for i, fila in enumerate(matriz):
-        print(usuarios[i]["nombre"], end=" ")
+        print(usuarios_ord[i]["nombre"], end=" ")
 
         for rating in fila:
             print(rating, end=" ")
@@ -298,6 +375,7 @@ def mostrar_matriz_ratings():
 # ============================================================
 # SECCIÓN 7 — MENÚ INTERACTIVO
 # ============================================================
+
 
 def menu_usuarios():
     """Submenú de gestión de usuarios."""
@@ -310,12 +388,18 @@ def menu_usuarios():
         print("  0. Volver")
 
         opcion = input("\n  Opción: ").strip()
-        if   opcion == "1": crear_usuario()
-        elif opcion == "2": buscar_usuario_por_id()
-        elif opcion == "3": ver_usuarios()
-        elif opcion == "4": eliminar_usuario()
-        elif opcion == "0": break
-        else: print("Opción inválida.")
+        if opcion == "1":
+            crear_usuario()
+        elif opcion == "2":
+            mostrar_usuario_por_id()
+        elif opcion == "3":
+            ver_usuarios()
+        elif opcion == "4":
+            eliminar_usuario()
+        elif opcion == "0":
+            break
+        else:
+            print("Opción inválida.")
 
 
 def menu_ratings():
@@ -327,10 +411,14 @@ def menu_ratings():
         print("  0. Volver")
 
         opcion = input("\n  Opción: ").strip()
-        if   opcion == "1": registrar_rating()
-        elif opcion == "2": leer_ratings()
-        elif opcion == "0": break
-        else: print("Opción inválida.")
+        if opcion == "1":
+            registrar_rating()
+        elif opcion == "2":
+            leer_ratings()
+        elif opcion == "0":
+            break
+        else:
+            print("Opción inválida.")
 
 
 def main():
